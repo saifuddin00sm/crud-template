@@ -323,20 +323,15 @@ function cards(params) {
 
 // reusable functions end
 
+(function(){
+  setLocalStorage(tJson);
+  storePostJson(postJson);
+})();
+
 function createCards() {
   const data = getLocalStorage();
-  const ptJson = getPostJson();
-
-  if (data === null || data.length < 1) {
-    setLocalStorage(tJson);
-  } else {
-    cards(data);
-    dropDowns();
-  }
-
-  if (ptJson === null) {
-    storePostJson(postJson);
-  }
+  cards(data);
+  dropDowns();
 }
 
 function confirmVal(val, idx, type) {
@@ -637,15 +632,15 @@ function submitUpdate(e) {
 
 // select multiple items from dropdown
 function changeLabelText(param, idx) {
-  const drop_label = document.querySelectorAll("#drop_label");
   const card_form = document.querySelectorAll(".card_form");
+  const drop_label = card_form[idx].querySelector("#drop_label");
   const checkboxes = card_form[idx].querySelectorAll(".checkboxes");
 
   param.length === 0
-    ? (drop_label[idx].innerText = "Select options")
+    ? (drop_label.innerText = "Select options")
     : param.length === checkboxes.length
-    ? (drop_label[idx].innerText = "All selected")
-    : (drop_label[idx].innerText = `Selected ${param.length}`);
+    ? (drop_label.innerText = "All selected")
+    : (drop_label.innerText = `Selected ${param.length}`);
 }
 
 // custom multi select dropdown checkboxes function
@@ -706,16 +701,16 @@ function inputCheck(val, idx) {
   // // changing dropdown label text
   switch (attrValues) {
     case ind.attrName:
-      changeLabelText(data[index].indsVals, idx);
+      changeLabelText(data[index].indsVals, index);
       break;
     case size.attrName:
-      changeLabelText(data[index].sizeVals, idx);
+      changeLabelText(data[index].sizeVals, index);
       break;
     case country.attrName:
-      changeLabelText(data[index].countryVals, idx);
+      changeLabelText(data[index].countryVals, index);
       break;
     case fundinground.attrName:
-      changeLabelText(data[index].fundsVals, idx);
+      changeLabelText(data[index].fundsVals, index);
       break;
     default:
       break;
