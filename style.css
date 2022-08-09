@@ -1,0 +1,227 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.accountScoring_container label {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.accountScoring_container input {
+    padding: 5px;
+    /* width: 100%; */
+    outline: none;
+}
+
+.accountScoring_container select {
+    padding: 5px;
+    outline: none;
+}
+
+.accountScoring_container hr {
+    margin: 20px 0px;
+}
+
+.accountScoring_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    font-size: 20px;
+}
+
+.accountScoring_container .sub_container {
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid #000;
+    overflow-y: auto;
+    height: 800px;
+}
+
+.accountScoring_container .form_container {
+    padding: 20px;
+}
+
+.accountScoring_container .card_form {
+    border: 1px solid #000;
+    margin-bottom: 15px;
+}
+
+.accountScoring_container .head_input {
+    padding: 20px 30px 0px 30px;
+}
+
+.accountScoring_container .form_control {
+    display: block;
+}
+
+.accountScoring_container .card_footer {
+    display: flex;
+    padding: 15px;
+    justify-content: space-between;
+}
+
+.accountScoring_container .card_footer button {
+    background: transparent;
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.accountScoring_container .card_footer .delCard:disabled {
+    cursor: not-allowed;
+}
+
+.accountScoring_container .updateBtn {
+    float: right;
+    margin-bottom: 20px;
+    background: transparent;
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 17px;
+    text-decoration: none;
+    color: #000;
+}
+
+.accountScoring_container .when {
+    margin-bottom: 30px;
+}
+
+.accountScoring_container .when p,
+.accountScoring_container .and p {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.accountScoring_container .score_input {
+    border-bottom: 1px solid;
+    padding: 15px;
+    background: #f1f1f1dd;
+}
+
+.accountScoring_container .add_btn {
+    margin-left: 20px;
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-size: 15px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.accountScoring_container .save_btn {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 15px;
+    background: transparent;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+.accountScoring_container .and_selection,
+.accountScoring_container .when_selection {
+    margin-bottom: 15px;
+}
+
+.accountScoring_container .contents {
+    padding: 15px;
+}
+
+
+/* dropdwon css */
+
+.accountScoring_container .drop_items {
+    display: flex;
+    gap: 7px;
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+.accountScoring_container .drop_items>span {
+    font-size: 16px;
+}
+
+.accountScoring_container .drop_list {
+    display: none;
+    box-shadow: 0 1px 2px 1px rgb(0 0 0 / 15%);
+    z-index: 1000;
+    padding: 11px;
+    position: absolute;
+    background: white;
+    max-width: 138px;
+    width: 100%;
+}
+
+.accountScoring_container .dropdown-label {
+    border: 1px solid #ccc;
+    padding: 4px;
+    margin-bottom: 6px;
+    display: block;
+    width: 138px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.accountScoring_container #select_allBtn {
+    color: #000;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.accountScoring_container .dropdownContainer {
+    position: relative;
+}
+
+.accountScoring_container #templates {
+    display: none;
+    width: 200px;
+}
+
+.accountScoring_container #templateName {
+    display: block;
+}
+
+.accountScoring_container #update_submit_btn {
+    display: none;
+}
+
+.accountScoring_container .chips_container .chips_son {
+    gap: 7px;
+    margin: 8px 0px;
+    display: flex;
+    flex-wrap: wrap
+}
+
+.accountScoring_container .chips_container .chips_son .chip_values {
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 11px;
+    text-overflow: ellipsis;
+}
+
+.accountScoring_container .chips_container .chip {
+    color: rgba(0, 0, 0, 0.87);
+    border: none;
+    cursor: default;
+    height: 29px;
+    display: inline-flex;
+    padding: 3px;
+    font-size: 0.8125rem;
+    box-sizing: border-box;
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    align-items: center;
+    font-family: Inter-light-Font;
+    white-space: nowrap;
+    vertical-align: middle;
+    justify-content: center;
+    border: 1px solid #a8a8a8;
+    padding: 3px;
+    border-radius: 3px;
+}
