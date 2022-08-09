@@ -324,8 +324,14 @@ function cards(params) {
 // reusable functions end
 
 (function(){
-  setLocalStorage(tJson);
-  storePostJson(postJson);
+  const data = getLocalStorage();
+  const ptJson = getPostJson();
+  if(data === null){
+    setLocalStorage(tJson); 
+  }
+  if(ptJson ===null){
+    storePostJson(postJson);
+  }
 })();
 
 function createCards() {
