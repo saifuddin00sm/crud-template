@@ -409,6 +409,7 @@ function delCards(param) {
 }
 
 function selectType(val, id) {
+  console.log('from func:',val)
   const data = getLocalStorage();
   const updated = data.map((m) =>
     m.id === parseInt(id) ? { ...m, selected: val } : m
@@ -726,17 +727,17 @@ function inputCheck(val, idx) {
 }
 
 // custom multi select dropdown creator function
+function checkBoxes(i, elems) {
+  elems.forEach((element) => {
+    element === i.value && (i.checked = true);
+  });
+};
+
 function dropDowns() {
+  const card_form = document.querySelectorAll(".card_form");
   const drop_list = document.querySelectorAll("#drop_list");
   const drop_label = document.querySelectorAll("#drop_label");
   const data = getLocalStorage();
-  const card_form = document.querySelectorAll(".card_form");
-
-  function checkBoxes(i, elems) {
-    elems.forEach((element) => {
-      element === i.value && (i.checked = true);
-    });
-  }
 
   drop_label.forEach((i, idx) => {
     const attrValues = card_form[idx].querySelector(".attrValues").value;
@@ -751,23 +752,25 @@ function dropDowns() {
       sizeVals,
       indsVals,
       fundsVals,
-      countryVals,
+      countryVals
     } = data[idx];
 
+// console.log('attr: ', attrValues)
+console.log('attr: ', attrValues);
 
-    checkboxes.forEach((i) => {
+    checkboxes.forEach((c) => {
       switch (attrValues) {
         case ind.attrName:
-          checkBoxes(i, indsVals);
+          checkBoxes(c, indsVals);
           break;
         case size.attrName:
-          checkBoxes(i, sizeVals);
+          checkBoxes(c, sizeVals);
           break;
         case country.attrName:
-          checkBoxes(i, countryVals);
+          checkBoxes(c, countryVals);
           break;
         case fundinground.attrName:
-          checkBoxes(i, fundsVals);
+          checkBoxes(c, fundsVals);
           break;
         default:
           break;
