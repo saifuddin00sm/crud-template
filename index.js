@@ -368,6 +368,7 @@ function handleChipSubmit(e, idx) {
 
     setLocalStorage(templatejsn);
     cards(templatejsn);
+    dropDowns();
   }
 }
 
@@ -381,6 +382,7 @@ function delChips(val, idx) {
 
   setLocalStorage(templateJsn);
   cards(templateJsn);
+  dropDowns();
 }
 
 function cloneCards(pra) {
