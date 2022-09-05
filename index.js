@@ -411,7 +411,6 @@ function delCards(param) {
 }
 
 function selectType(val, id) {
-  console.log('from func:',val)
   const data = getLocalStorage();
   const updated = data.map((m) =>
     m.id === parseInt(id) ? { ...m, selected: val } : m
@@ -439,16 +438,17 @@ function pointHandler(val, id) {
 }
 
 // template update functionalities
-function changeTemplate(e) {
-  e.preventDefault();
+
+function handleTempUiForUpdate(val){
   const ptJson = getPostJson();
   const templateJsn = getLocalStorage();
   let tem = [];
 
   ptJson.template.forEach((i) => {
-    if (i.tName === e.target.value) {
+    if (i.tName === val) {
       templateCurrentUpdateId = i.id;
-      tem = i.tDetail.rule;
+      const validTemplates = i.tDetail.rule.filter((f)=> (f.tName !== ''));
+      tem = validTemplates;
     }
   });
 
@@ -521,11 +521,12 @@ function changeTemplate(e) {
 function updateTemplate(e) {
   e.preventDefault();
   const ptJson = getPostJson();
+  const validTemplates = ptJson?.template.filter(temp=> temp.tName !== '');
 
   const templates = document.getElementById("templates");
   const templateName = document.getElementById("templateName");
 
-  if (ptJson.template[0].tName === "")
+  if (validTemplates.length < 1)
     return alert("Please enter a template name, and save");
 
   if (templateName.style.display === "none") {
@@ -547,13 +548,12 @@ function updateTemplate(e) {
     templates.innerHTML = `
           ${ptJson.template
             .map(
-              (i) => `
-          <option value="${i.tName}">${i.tName}</option>
-          `
-            )
+              (i) => i.tName !== '' && `<option value="${i.tName}">${i.tName}</option>`)
             .join("")}
       `;
   }
+
+  handleTempUiForUpdate(templates.value);
 }
 
 
@@ -744,7 +744,6 @@ function dropDowns() {
   drop_label.forEach((i, idx) => {
     const attrValues = card_form[idx].querySelector(".attrValues").value;
     const checkboxes = card_form[idx].querySelectorAll(".checkboxes");
-
     // selecting the selected values when the cards loads
     const {
       country,
@@ -756,9 +755,6 @@ function dropDowns() {
       fundsVals,
       countryVals
     } = data[idx];
-
-// console.log('attr: ', attrValues)
-console.log('attr: ', attrValues);
 
     checkboxes.forEach((c) => {
       switch (attrValues) {
@@ -818,7 +814,7 @@ function getPostJson() {
 }
 
 // event listeners
-templates.addEventListener("change", changeTemplate);
+templates.addEventListener("change", (e)=> handleTempUiForUpdate(e.target.value));
 updateBtn.addEventListener("click", updateTemplate);
 update_submit_btn.addEventListener("click", submitUpdate);
 
