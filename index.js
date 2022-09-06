@@ -4,6 +4,7 @@ const sub_container = document.getElementById("sub_container");
 const updateBtn = document.getElementById("updateBtn");
 const templates = document.getElementById("templates");
 const update_submit_btn = document.getElementById("update_submit_btn");
+const templateNameInput = document.getElementById('templateName');
 
 let templateCurrentUpdateId = null;
 
@@ -554,6 +555,13 @@ function updateTemplate(e) {
   }
 
   handleTempUiForUpdate(templates.value);
+
+  if(e.target.innerText !== 'Cancel'){
+    console.log('not cancelled');
+    setLocalStorage(tJson)
+    cards(tJson);
+    dropDowns();
+  }
 }
 
 
@@ -561,11 +569,12 @@ function updateTemplate(e) {
 function submitUpdate(e) {
   e.preventDefault();
   const ptJson = getPostJson();
+  const validTemplates = ptJson?.template.filter(temp=> temp.tName !== '');
   const templateJsn = getLocalStorage();
   const templateName = document.getElementById("templateName");
 
   if (ptJson !== null) {
-    ptJson.template.forEach(({ id, tDetail }) => {
+    validTemplates.forEach(({ id, tDetail }) => {
       if (id === templateCurrentUpdateId) {
         const tds = templateJsn.map(({ id }, idx) => {
           const card_form = document.querySelectorAll(".card_form");
@@ -619,9 +628,9 @@ function submitUpdate(e) {
       }
     });
   }
-
-  console.log("Update submitted: ", ptJson);
+  ptJson.template = validTemplates;
   storePostJson(ptJson);
+  console.log("Update submitted: ", ptJson);
 
 
   if (templateName.style.display === "none") {
@@ -637,6 +646,11 @@ function submitUpdate(e) {
     save_btn.style.display = "none";
     templates.style.display = 'block';
   }
+  // setting the default values again after updated
+  setLocalStorage(tJson)
+  cards(tJson);
+  dropDowns();
+  templateNameInput.value = '';
 };
 
 // select multiple items from dropdown
@@ -820,13 +834,12 @@ update_submit_btn.addEventListener("click", submitUpdate);
 
 document.addEventListener("DOMContentLoaded", () => {
   createCards();
-  const temps = [];
-  localStorage.setItem("temps", JSON.stringify(temps));
 
   // template submittion
   sub_container.addEventListener("submit", function (e) {
     e.preventDefault();
     const ptJson = getPostJson();
+    const validTemplates = ptJson?.template.filter(temp=> temp.tName !== '');
     const templateData = getLocalStorage();
 
     const templateName = document.getElementById("templateName");
@@ -836,7 +849,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let checkSameName = false;
 
-    ptJson.template.forEach(({tName})=> (tName === templateNameVal && (checkSameName = true)));
+    validTemplates.forEach(({tName})=> (tName === templateNameVal && (checkSameName = true)));
 
     if(checkSameName)return alert('Template name already exist!');
 
@@ -889,23 +902,23 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     });
 
-    const tempis = JSON.parse(localStorage.getItem("temps"));
-
     const defaultObj = {
-      id: tempis.length + 1,
+      id: validTemplates.length + 1,
       tName: templateNameVal,
       tDetail: {
         rule: allCards,
       },
     };
 
-    tempis.push(defaultObj);
-
-    localStorage.setItem("temps", JSON.stringify(tempis));
-
-    ptJson.template = tempis;
+    validTemplates.push(defaultObj);
+    ptJson.template = validTemplates;
 
     storePostJson(ptJson);
     console.log("postJson:", ptJson);
+  // setting the default values again after updated
+  setLocalStorage(tJson)
+  cards(tJson);
+  dropDowns();
+    templateNameInput.value = '';
   });
 });
