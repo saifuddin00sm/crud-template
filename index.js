@@ -502,7 +502,7 @@ function handleTempUiForUpdate(val){
       id: idx + 1,
       selected: attrNames,
       points: m.points,
-      isPlus: m.isPlus,
+      isPlus: m.isPlus ? 'plus': 'minus',
       sizeVals: sizes,
       indsVals: inds,
       countryVals: country,
