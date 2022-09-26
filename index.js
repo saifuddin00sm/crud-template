@@ -178,71 +178,6 @@ function cards(params) {
           ? i?.fundinground.attrValAllowed
           : [];
 
-      let noneArr = null;
-
-      if (i.selected === "Growth") {
-        noneArr = `
-          <select id="growthVals" onchange="confirmVal(this.value, '${
-            i.id
-          }', 'growth')">
-            ${i.growth.attrValAllowed
-              .map(
-                (a) =>
-                  `<option ${
-                    a === params[idx].growthVals ? "selected" : ""
-                  } value=${a}>${a}</option>`
-              )
-              .join("")}
-          </select>`;
-      } else if (i.selected === "HasFunding") {
-        noneArr = `
-        <select id="hasFundVals" onchange="confirmVal(this.value, '${
-          i.id
-        }', 'hasfunding')">
-          ${i?.hasfunding.attrValAllowed
-            .map(
-              (a) =>
-                `<option ${
-                  a === params[idx].hasFundVals ? "selected" : ""
-                } value=${a}>${a}</option>`
-            )
-            .join("")}
-        </select>`;
-      } else if (i.selected === "Description") {
-        noneArr = `
-          <div class="chips_container">
-              <input placeholder="Add chips" id="chipsInput" onkeypress="handleChipSubmit(event,'${idx}')">
-              <div class="chips_son">${i?.desc.attrValAllowed
-                .map(
-                  (c) =>
-                    `
-                <div class="chip">
-                  <span class="chip_values" style="margin-right: 5px;">${c}</span>
-                  <span onclick="delChips('${c}','${idx}')" style="border: 1px solid #ccc;padding: 2px 3px; font-size: 9px;cursor: pointer;margin-right: 4px;">&#10005;</span>
-                </div>
-              `
-                )
-                .join("")}</div>
-          </div>  
-        `;
-      } else {
-        noneArr = `<div class="dropdownContainer">
-        <label class="dropdown-label" id="drop_label">Select options</label>
-          <div class="drop_list" id="drop_list">
-                ${inds
-                  .map(
-                    (m) => `
-                <label class="drop_items">
-                    <input onclick="inputCheck(this, '${idx}')" type="checkbox" class="checkboxes" value="${m}">
-                    <span>${m}</span>
-                </label>
-            `
-                  )
-                  .join("")}
-          </div>
-    </div>`;
-      };
-
       const attrNames = [
         i?.ind.attrName,
         i?.size.attrName,
@@ -254,6 +189,70 @@ function cards(params) {
       ];
 
       const pointsVal = ["plus", "minus"];
+
+      function showFields() {
+        switch (i.selected) {
+          case "Growth":
+            return `
+            <select id="growthVals" onchange="confirmVal(this.value, '${
+              i.id
+            }', 'growth')">
+              ${inds
+                .map(
+                  (a) =>
+                    `<option ${
+                      a === params[idx].growthVals ? "selected" : ""
+                    } value=${a}>${a}</option>`
+                )
+                .join("")}
+            </select>`;
+          case "HasFunding":
+            return `
+            <select id="hasFundVals" onchange="confirmVal(this.value, '${
+              i.id
+            }', 'hasfunding')">
+              ${inds
+                .map(
+                  (a) =>
+                    `<option ${
+                      a === params[idx].hasFundVals ? "selected" : ""
+                    } value=${a}>${a}</option>`
+                )
+                .join("")}
+            </select>`;
+          case "Description":
+            return `
+            <div class="chips_container">
+                <input placeholder="Add chips" id="chipsInput" onkeypress="handleChipSubmit(event,'${idx}')">
+                <div class="chips_son">${inds
+                  .map(
+                    (c) =>
+                      `
+                  <div class="chip">
+                    <span class="chip_values" style="margin-right: 5px;">${c}</span>
+                    <span onclick="delChips('${c}','${idx}')" style="border: 1px solid #ccc;padding: 2px 3px; font-size: 9px;cursor: pointer;margin-right: 4px;">&#10005;</span>
+                  </div>
+                `
+                  )
+                  .join("")}</div>
+            </div>  
+          `;
+          default:
+            return `<div class="dropdownContainer">
+          <label class="dropdown-label" id="drop_label">Select options</label>
+            <div class="drop_list" id="drop_list">
+                  ${inds
+                    .map(
+                      (m) => `
+                  <label class="drop_items">
+                      <input onclick="inputCheck(this, '${idx}')" type="checkbox" class="checkboxes" value="${m}">
+                      <span>${m}</span>
+                  </label>
+              `).join("")}
+            </div>
+      </div>`;
+        }
+      };
 
       return `
           <div class="card_form" id="card_form">
@@ -279,7 +278,7 @@ function cards(params) {
                     <p>when</p>
                     <small id="labels" style="margin-bottom: 7px;display:block;">${label}</small>
                 <div class="when_selection">
-                    ${noneArr}
+                    ${showFields()}
                 </div>
               </div>
                   <div class="and" id="and">
@@ -751,11 +750,12 @@ function checkBoxes(i, elems) {
 
 function dropDowns() {
   const card_form = document.querySelectorAll(".card_form");
-  const drop_list = document.querySelectorAll("#drop_list");
-  const drop_label = document.querySelectorAll("#drop_label");
+  const selectionField = document.querySelectorAll(".when_selection");
   const data = getLocalStorage();
 
-  drop_label.forEach((i, idx) => {
+  selectionField.forEach((i, idx) => {
+    const dropsLabel = i.querySelector('#drop_label');
+    const drop_list = i.querySelector("#drop_list");
     const attrValues = card_form[idx].querySelector(".attrValues").value;
     const checkboxes = card_form[idx].querySelectorAll(".checkboxes");
     // selecting the selected values when the cards loads
@@ -808,11 +808,13 @@ function dropDowns() {
     };
 
     // toggling the dropdown on clicking
-    i.addEventListener("click", function (e) {
-      drop_list[idx].style.display === "block"
-        ? (drop_list[idx].style.display = "none")
-        : (drop_list[idx].style.display = "block");
-    });
+    if(dropsLabel !== null){
+      dropsLabel.addEventListener('click', function(e){
+        drop_list.style.display === "block"
+        ? (drop_list.style.display = "none")
+        : (drop_list.style.display = "block");
+      })
+    }
   });
 }
 
