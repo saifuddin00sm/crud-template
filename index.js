@@ -70,7 +70,7 @@ const tJson = [
       attrType: "String",
       attrStruct: "Array",
       attrOps: "AnyOf",
-      attrValAllowed: ["Manufacturing", "Retail", "Finance"],
+      attrValAllowed: ['Information Technology And Services', 'Hospital & Health Care', 'Construction', 'Retail', 'Education Management', 'Financial Services', 'Accounting', 'Computer Software', 'Higher Education', 'Automotive', 'Government Administration', 'Marketing and Advertising', 'Banking', 'Health, Wellness and Fitness', 'Real Estate', 'Food & Beverages', 'Telecommunications', 'Oil & Energy', 'Mechanical or Industrial Engineering', 'Hospitality', 'Primary/Secondary Education', 'Electrical/Electronic Manufacturing', 'Internet', 'Insurance', 'Consumer Services', 'Medical Practice', 'Human Resources', 'Transportation/Trucking/Railroad', 'Restaurants', 'Civil Engineering', 'Pharmaceuticals', 'Design', 'Logistics and Supply Chain', 'Research', 'Management Consulting', 'Architecture & Planning', 'Apparel & Fashion', 'Food Production', 'Law Practice', 'Facilities Services', 'Consumer Goods', 'Non-Profit Organization Management', 'Machinery', 'Entertainment', 'Chemicals', 'Wholesale', 'Arts and Crafts', 'Farming', 'Utilities', 'Legal Services', 'Sports', 'Mining & Metals', 'Airlines/Aviation', 'Building Materials', 'Leisure, Travel & Tourism', 'Environmental Services', 'Professional Training & Coaching', 'Medical Devices', 'Music', 'Individual & Family Services', 'Cosmetics', 'Staffing and Recruiting', 'Mental Health Care', 'Graphic Design', 'Industrial Automation', 'Security and Investigations', 'Biotechnology', 'Aviation & Aerospace', 'Business Supplies and Equipment', 'Public Relations and Communications', 'Import and Export', 'Textiles', 'Writing and Editing', 'Consumer Electronics', 'Media Production', 'Renewables & Environment', 'Broadcast Media', 'International Trade and Development', 'Military', 'Computer Networking', 'Civic & Social Organization', 'Events Services', 'Photography', 'E-Learning', 'Computer Hardware', 'Computer & Network Security', 'Defense & Space', 'Furniture', 'Fine Art', 'Warehousing', 'Printing', 'Investment Management', 'Outsourcing/Offshoring', 'Publishing', 'Information Services', 'Law Enforcement', 'Supermarkets', 'Animation', 'Maritime', 'Executive Office', 'Religious Institutions', 'Government Relations', 'Semiconductors', 'Program Development', 'Plastics', 'Online Media', 'Public Safety', 'Packagingand Containers', 'Commercial Real Estate', 'Alternative Medicine', 'Motion Pictures and Film', 'Judiciary', 'Performing Arts', 'Computer Games', 'Veterinary', 'Luxury Goods & Jewelry', 'Investment Banking', 'Package/Freight Delivery', 'International Affairs', 'Market Research', 'Recreational Facilities and Services', 'Translation and Localization', 'Wine and Spirits', 'Capital Markets', 'Public Policy', 'Sporting Goods', 'Newspapers', 'Paper & Forest Products', 'Venture Capital & Private Equity', 'Wireless', 'Libraries', 'Gambling & Casinos', 'Ranching', 'Glass, Ceramics & Concrete', 'Philanthropy', 'Dairy', 'Shipbuilding', 'Museums and Institutions', 'Think Tanks', 'Political Organization', 'Fishery', 'Horticulture New', 'Tobacco', 'Fund-Raising', 'Railroad Manufacture', 'Alternative Dispute Resolution', 'Nanotechnology', 'Legislative Office', 'Mobile Games'],
     },
     country: {
       attrName: "Country",
@@ -78,7 +78,7 @@ const tJson = [
       attrType: "String",
       attrStruct: "Array",
       attrOps: "AnyOf",
-      attrValAllowed: ["United States", "Canada", "Germany"],
+      attrValAllowed: ['Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria', 'Bahrain', 'Bangladesh', 'Belgium', 'Bolivia', 'Bosnia', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Estonia', 'Finland', 'France', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Korea', 'Kuwait', 'Latvia', 'Lebanon', 'Lithuania', 'Luxembourg', 'Macedonia', 'Malaysia', 'Malta', 'Mauritius', 'Mexico', 'Morocco', 'Nepal', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Romania', 'Russian Federation', 'Saudi Arabia', 'Singapore', 'Slovak Republic', 'Slovenia', 'South Africa', 'Spain', 'Sri Lanka', 'Sweden', 'Switzerland', 'Taiwan', 'Tanzania', 'Thailand', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Venezuela', 'Vietnam', 'Zimbabwe'],
     },
     desc: {
       attrName: "Description",
@@ -241,13 +241,18 @@ function cards(params) {
             return `<div class="dropdownContainer">
           <label class="dropdown-label" id="drop_label">Select options</label>
             <div class="drop_list" id="drop_list">
+              <div class="dropdown_search">
+                <input onkeyup="searchDropdownItems(this, '${idx}')" class="dropdown_search-input" type="text" placeholder="Search">
+              </div>
                   ${inds
                     .map(
                       (m) => `
-                  <label class="drop_items">
-                      <input onclick="inputCheck(this, '${idx}')" type="checkbox" class="checkboxes" value="${m}">
-                      <span>${m}</span>
-                  </label>
+                  <div class="list_items">
+                    <label class="drop_items">
+                        <input onclick="inputCheck(this, '${idx}')" type="checkbox" class="checkboxes" value="${m}">
+                        <span class="checkBox_labels">${m}</span>
+                    </label>
+                  </div>
               `).join("")}
             </div>
       </div>`;
@@ -814,6 +819,24 @@ function dropDowns() {
         ? (drop_list.style.display = "none")
         : (drop_list.style.display = "block");
       })
+    }
+  });
+}
+
+// search dropdown items
+function searchDropdownItems(e, idx){
+  const index = parseInt(idx);
+  const inputVal = e.value.toLowerCase().trim();
+  const card_form = document.querySelectorAll(".card_form")[index];
+  const list = card_form.querySelectorAll('.list_items');
+
+  list.forEach((listItem)=> {
+    const labels = listItem.querySelector('.checkBox_labels');
+    const keyword = labels.textContent || labels.innerText;
+    if (keyword.toLowerCase().includes(inputVal)) {
+      listItem.style.display = '';
+    } else {
+      listItem.style.display = 'none';
     }
   });
 }

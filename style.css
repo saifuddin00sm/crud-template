@@ -146,6 +146,7 @@
 
 .accountScoring_container .drop_items>span {
     font-size: 16px;
+    word-wrap: break-word;
 }
 
 .accountScoring_container .drop_list {
@@ -155,8 +156,12 @@
     padding: 11px;
     position: absolute;
     background: white;
-    max-width: 138px;
+    max-width: 190px;
     width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    height: 231px;
 }
 
 .accountScoring_container .dropdown-label {
@@ -164,9 +169,16 @@
     padding: 4px;
     margin-bottom: 6px;
     display: block;
-    width: 138px;
+    width: 190px;
     font-size: 17px;
     cursor: pointer;
+}
+
+.dropdown_search > input{
+    width: 100%;
+}
+.dropdown_search{
+    position: relative;
 }
 
 .accountScoring_container #select_allBtn {
