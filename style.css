@@ -164,6 +164,25 @@
     height: 231px;
 }
 
+.accountScoring_container .drop_list::-webkit-scrollbar {
+    width: 3px;
+}
+
+  /* Track */
+.accountScoring_container .drop_list::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+  /* Handle */
+.accountScoring_container .drop_list::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+  /* Handle on hover */
+.accountScoring_container .drop_list::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 .accountScoring_container .dropdown-label {
     border: 1px solid #ccc;
     padding: 4px;

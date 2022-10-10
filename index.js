@@ -245,7 +245,7 @@ function cards(params) {
           </label>
             <div class="drop_list" id="drop_list">
               <div class="dropdown_search">
-                <input onkeyup="searchDropdownItems(this, '${idx}')" class="dropdown_search-input" type="text" placeholder="Search">
+                <input onkeyup="searchDropdownItems(this, '${idx}')" class="dropdown_search-input" type="text" placeholder="Search in ${inds.length} ${i.selected}">
               </div>
                   ${inds
                     .map(
@@ -764,7 +764,6 @@ function dropDowns() {
 
   selectionField.forEach((i, idx) => {
     const dropsLabel = i.querySelector('#drop_label');
-    const drop_label_arrow = dropsLabel.querySelector('.drop_label_arrow');
     const drop_list = i.querySelector("#drop_list");
     const attrValues = card_form[idx].querySelector(".attrValues").value;
     const checkboxes = card_form[idx].querySelectorAll(".checkboxes");
@@ -819,6 +818,7 @@ function dropDowns() {
 
     // toggling the dropdown on clicking
     if(dropsLabel !== null){
+      const drop_label_arrow = dropsLabel.querySelector('.drop_label_arrow');
       dropsLabel.addEventListener('click', function(e){
        if(drop_list.style.display === "block"){
         drop_label_arrow.innerHTML = '&#8595;';
