@@ -239,7 +239,10 @@ function cards(params) {
           `;
           default:
             return `<div class="dropdownContainer">
-          <label class="dropdown-label" id="drop_label">Select options</label>
+          <label class="dropdown-label" id="drop_label">
+            <span class="drop_label_txt">Select options</span>
+            <span class="drop_label_arrow">&#8595;</span>
+          </label>
             <div class="drop_list" id="drop_list">
               <div class="dropdown_search">
                 <input onkeyup="searchDropdownItems(this, '${idx}')" class="dropdown_search-input" type="text" placeholder="Search">
@@ -661,13 +664,14 @@ function submitUpdate(e) {
 function changeLabelText(param, idx) {
   const card_form = document.querySelectorAll(".card_form");
   const drop_label = card_form[idx].querySelector("#drop_label");
+  const drop_label_txt = drop_label.querySelector('.drop_label_txt');
   const checkboxes = card_form[idx].querySelectorAll(".checkboxes");
 
   param.length === 0
-    ? (drop_label.innerText = "Select options")
+    ? (drop_label_txt.innerText = "Select options")
     : param.length === checkboxes.length
-    ? (drop_label.innerText = "All selected")
-    : (drop_label.innerText = `Selected ${param.length}`);
+    ? (drop_label_txt.innerText = "All selected")
+    : (drop_label_txt.innerText = `Selected ${param.length}`);
 }
 
 // custom multi select dropdown checkboxes function
@@ -760,6 +764,7 @@ function dropDowns() {
 
   selectionField.forEach((i, idx) => {
     const dropsLabel = i.querySelector('#drop_label');
+    const drop_label_arrow = dropsLabel.querySelector('.drop_label_arrow');
     const drop_list = i.querySelector("#drop_list");
     const attrValues = card_form[idx].querySelector(".attrValues").value;
     const checkboxes = card_form[idx].querySelectorAll(".checkboxes");
@@ -815,9 +820,13 @@ function dropDowns() {
     // toggling the dropdown on clicking
     if(dropsLabel !== null){
       dropsLabel.addEventListener('click', function(e){
-        drop_list.style.display === "block"
-        ? (drop_list.style.display = "none")
-        : (drop_list.style.display = "block");
+       if(drop_list.style.display === "block"){
+        drop_label_arrow.innerHTML = '&#8595;';
+        drop_list.style.display = "none";
+       }else{
+        drop_list.style.display = "block";
+        drop_label_arrow.innerHTML = '&#8593;';
+       }
       })
     }
   });

@@ -168,8 +168,10 @@
     border: 1px solid #ccc;
     padding: 4px;
     margin-bottom: 6px;
-    display: block;
+    padding: 4px 11px;
     width: 190px;
+    display: flex;
+    justify-content: space-between;
     font-size: 17px;
     cursor: pointer;
 }
